@@ -11,47 +11,51 @@ using System.Collections.Generic;
  **/
 class Solution
 {
-    
-    ///Counts the number of characters in a string
-    static int CountCharactersInString(string s)
-    {
-        int count = 0;
-        foreach(char c in s)
-        {
-	        if(!char.IsWhiteSpace(c)){
-	            result++;
-	        }
-        }
-        return count;
-    }
-    
-    ///Returns the alphabet integer position of a character.
+    ///Returns the alphabet integer position of a character. If the character is not a letter, it returns 27
+    ///(the position of '?' in the character array containing the alphabet)
     static int CharacterPosition(char c){
-        return char.ToUpper(c) - 64;
+        int position = char.ToUpper(c) - 64;
+        return (position >= 1 && position <= 26) ? position : 27;
     }
     
-    ///Main Method
+    ///Prints a character
+    static void PrintCharacter(char[] characters, int L, int H, int N){
+        for (int i = 0; i < H; i++)
+        {
+            String ROW = Console.ReadLine();
+            
+            StringBuilder solution = new StringBuilder();
+            int count = 0; int character = 0;
+            for(int j = 0; j < L*N; j++){
+                int position = CharacterPosition(characters[character])*L - L;
+                solution.Append(ROW.ElementAt(position+count).ToString());
+                count++;
+                if(count >= L){
+                    count = 0;
+                    character++;
+                }
+            }
+            
+            Console.WriteLine(solution);
+        }
+    }
+
     static void Main(String[] args)
     {
         int L = int.Parse(Console.ReadLine());  //Width of a letter represented in ASCII art.
         int H = int.Parse(Console.ReadLine());  //Height of a letter represented in ASCII art.
-        String T = Console.ReadLine();          //Line of text T, composed of n ASCII characters.
-        int n = CountCharactersInString(T);
-        char[,] abc = new char[H,L*27];
+        String T = Console.ReadLine();          //Line of text T, composed of N ASCII characters.
+        int n = T.Length;                       //Number of characters in T
         
-        for (int i = 0; i < H; i++){
-            String ROW = Console.ReadLine();
-            //Console.Error.WriteLine(ROW);
-            char[] charRow = ROW.ToCharArray();
-            for(int j = 0; j < L*27; j++){
-                abc[i,j] = CharRow[j];
-                //Console.Error.Write(abc[i,j]);
-            }
-            //Console.Error.WriteLine("");
+        char[] characters = new char[n];
+        StringReader sr = new StringReader(T);
+        sr.Read(characters, 0, n);
+        
+        int count = 0;
+        while(count < n){
+            PrintCharacter(characters, L, H, n);
+            count++;
         }
-        
-        char[,] solution = new char[H,N*3];
-        //Character printing/Solution making loop - TODO
         
     }
 }
